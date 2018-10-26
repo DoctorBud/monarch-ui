@@ -20,11 +20,13 @@
     "font-awesome": "^4.7.0",
     "js-yaml": "^3.12.0",
     "lodash": "^4.17.11",
+    "marked": "^0.5.1",
     "register-service-worker": "^1.5.2",
     "underscore": "^1.9.1",
     "vue": "^2.5.17",
     "vue-form-wizard": "^0.8.4",
     "vue-json-tree": "^0.3.3",
+    "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
@@ -42,9 +44,16 @@
     "eslint-import-resolver-alias": "^1.1.1",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-plugin-import": "^2.14.0",
+    "frontmatter-markdown-loader": "^1.4.0",
+    "html-loader": "^0.5.5",
+    "markdown-image-loader": "^1.0.5",
+    "markdown-to-vue-loader": "^1.0.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
+    "vmark": "^1.0.2",
+    "vmark-loader": "^1.0.0",
     "vue-cli-plugin-bootstrap-vue": "^0.1.0",
+    "vue-markdown-loader": "^2.4.1",
     "vue-template-compiler": "^2.5.17"
   }
 }

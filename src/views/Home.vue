@@ -18,6 +18,56 @@
               </div>
               <div
                 class="col-md-12 py-2">
+                <hr>
+                <hr>
+                <hr>
+
+                <h4>fmlhometext</h4>
+                <pre style="font-size:12px;text-align:left;border:5px solid red;height:100px;width:100%;">{{ fmlhometext }}</pre>
+
+                <div class="row">
+                  <div
+                    class="markdown-home"
+                    v-html="fmlhometext"/>
+                </div>
+
+
+                <hr>
+                <hr>
+                <hr>
+
+                <h4>fmlv-home-component</h4>
+                <fmlv-home-component/>
+
+
+                <hr>
+                <hr>
+                <hr>
+
+                <h6>m2v-home-component</h6>
+                <m2v-home-component/>
+
+                <hr>
+                <hr>
+                <hr>
+
+                <h6>mmlhometext</h6>
+                <pre style="font-size:12px;text-align:left;border:5px solid red;height:100px;width:100%;">{{ mmlhometext }}</pre>
+
+                <div class="row">
+                  <div
+                    class="markdown-home"
+                    v-html="mmlhometext"/>
+                </div>
+
+
+                <h6>vml-home-component</h6>
+                <vml-home-component/>
+
+                <hr>
+                <hr>
+                <hr>
+
                 <p class="intro-text">
                   Advancing translational science by semantically integrating
                   biological information across species.
@@ -40,6 +90,7 @@
       <section
         id="about"
         class="container content-section text-center">
+
         <div class="row">
           <div class="col-lg-8 offset-lg-2">
             <h2>The Monarch Initiative</h2>
@@ -299,21 +350,37 @@
 </template>
 
 <script>
-
 // @ is an alias to /src
 import MonarchAutocomplete from '@/components/MonarchAutocomplete.vue';
 import HomeFooter from '@/components/HomeFooter.vue';
 import getNewsItems from '@/api/News';
 
+import FMLHomeComponent from './Home.fmlmd';
+import FMLVHomeComponent from './Home.fmlvmd';
+import M2VHomeComponent from './Home.m2vmd';
+import MMLHomeText from './Home.mmlmd';
+import VMLHomeComponent from './Home.vmlmd';
+import MarkdownComponent from '@/components/Markdown.vue';
+
+console.log('FMLVHomeComponent', FMLVHomeComponent);
+
+
 export default {
   name: 'Home',
   components: {
     'monarch-autocomplete': MonarchAutocomplete,
-    'home-footer': HomeFooter
+    'home-footer': HomeFooter,
+    'fmlv-home-component': FMLVHomeComponent.vue.component,
+    'm2v-home-component': M2VHomeComponent,
+    // 'mml-home-component': MMLHomeComponent,
+    'vml-home-component': VMLHomeComponent,
+    'markdown-component': MarkdownComponent,
   },
   data() {
     return {
       newsItems: [],
+      fmlhometext: FMLHomeComponent.html,
+      mmlhometext: MMLHomeText
     };
   },
   async mounted() {
@@ -490,5 +557,9 @@ export default {
     a {
       color: white;
     }
+  }
+
+  .markdown-home ul {
+    list-style-type: none;
   }
 </style>
