@@ -1,3 +1,35 @@
+const markdownIt = require('markdown-it')({
+  html: true,
+  breaks: true,
+  linkify: true
+});
+const mila = require('markdown-it-link-attributes');
+
+// console.log('########markdownIt', Object.keys(markdownIt));
+// console.log('#######');
+
+
+// // Remember old renderer, if overriden, or proxy to default renderer
+// const defaultMarkdownItRender = markdownIt.renderer.rules.link_open || function defaultRender(tokens, idx, options, env, self) {
+//   return self.renderToken(tokens, idx, options);
+// };
+
+// markdownIt.renderer.rules.link_open = function link(tokens, idx, options, env, self) {
+//   // If you are sure other plugins can't add `target` - drop check below
+//   const aIndex = tokens[idx].attrIndex('target');
+
+//   if (aIndex < 0) {
+//     tokens[idx].attrPush(['target', '_blank']); // add new attribute
+//   }
+//   else {
+//     tokens[idx].attrs[aIndex][1] = '_blank'; // replace value of existing attr
+//   }
+
+//   // pass token to default renderer.
+//   return defaultMarkdownItRender(tokens, idx, options, env, self);
+// };
+
+
 module.exports = {
   outputDir: 'docs',
   baseUrl: '/monarch-ui/',
@@ -20,49 +52,44 @@ module.exports = {
     //   });
 
 
-    config.module
-      .rule('fmlmd')
-      .test(/\.fmlmd$/)
-      // .use('vue-loader')
-      // .loader('vue-loader')
-      // .end()
-      .use('frontmatter-markdown-loader')
-      .loader('frontmatter-markdown-loader')
-      .end();
+    // vue-markdown-loader
+    markdownIt.raw = true;
+    markdownIt.foo = true;
+    markdownIt.preprocess = function preprocess(md, source) {
+      console.log('preprocess', Object.keys(md));
+      console.log('');
 
-    config.module
-      .rule('fmlvmd')
-      .test(/\.fmlvmd$/)
-      // .use('vue-loader')
-      // .loader('vue-loader')
-      // .end()
-      .use('frontmatter-markdown-loader')
-      .loader('frontmatter-markdown-loader')
-      .options({
-        vue: true
+      md.use(mila, {
+        attrs: {
+          target: '_blank',
+          rel: 'noopener'
+        }
       });
 
-    // markdown-to-vue-loader
-    config.module
-      .rule('m2vmd')
-      .test(/\.m2vmd$/)
-      .use('vue-loader')
-      .loader('vue-loader')
-      .end()
-      .use('markdown-to-vue-loader')
-      .loader('markdown-to-vue-loader')
-      .end();
+      // Remember old renderer, if overriden, or proxy to default renderer
+      const defaultRender = md.renderer.rules.link_open || function defaultRender(tokens, idx, options, env, self) {
+        return self.renderToken(tokens, idx, options);
+      };
 
+      md.renderer.rules.link_open = function link(tokens, idx, options, env, self) {
+        // If you are sure other plugins can't add `target` - drop check below
+        const aIndex = tokens[idx].attrIndex('target');
 
-    // my-markdown-loader
-    config.module
-      .rule('mmlmd')
-      .test(/\.mmlmd$/)
-      .use('my-markdown-loader')
-      .loader('my-markdown-loader')
-      .end();
+        if (aIndex < 0) {
+          tokens[idx].attrPush(['target', '_blank']); // add new attribute
+        }
+        else {
+          tokens[idx].attrs[aIndex][1] = '_blank'; // replace value of existing attr
+        }
 
-    // vue-markdown-loader
+        // pass token to default renderer.
+        return defaultRender(tokens, idx, options, env, self);
+      };
+
+      // do any thing
+      return source;
+    };
+
     config.module
       .rule('vmlmd')
       .test(/\.vmlmd$/)
@@ -71,9 +98,12 @@ module.exports = {
       .end()
       .use('vue-markdown-loader')
       .loader('vue-markdown-loader/lib/markdown-compiler')
-      .options({
-        raw: true
-      });
+      .options(markdownIt);
+    // .options({
+    //   raw: true,
+    //   wrapper: 'article',
+    //   options: markdownIt
+    // });
 
 
     config.module
@@ -96,14 +126,96 @@ module.exports = {
         return options;
       });
 
-    // // vmark-loader
+    // vmark-loader
+    config.module
+      .rule('vmd')
+      .test(/\.vmd$/)
+      .use('vue-loader')
+      .loader('vue-loader')
+      .end()
+      .use('vmark-loader')
+      .loader('vmark-loader')
+      .options({
+        extend: function extend(md) {
+          md.use(mila, {
+            attrs: {
+              target: '_blank',
+              rel: 'noopener'
+            }
+          });
+
+          // // https://github.com/markdown-it/markdown-it/blob/master/docs/architecture.md#renderer
+
+          // // Remember old renderer, if overriden, or proxy to default renderer
+          // const defaultRender = md.renderer.rules.link_open || function defaultRender(tokens, idx, options, env, self) {
+          //   return self.renderToken(tokens, idx, options);
+          // };
+
+          // md.renderer.rules.link_open = function link(tokens, idx, options, env, self) {
+          //   // If you are sure other plugins can't add `target` - drop check below
+          //   const aIndex = tokens[idx].attrIndex('target');
+
+          //   if (aIndex < 0) {
+          //     tokens[idx].attrPush(['target', '_blank']); // add new attribute
+          //   }
+          //   else {
+          //     tokens[idx].attrs[aIndex][1] = '_blank'; // replace value of existing attr
+          //   }
+
+          //   // pass token to default renderer.
+          //   return defaultRender(tokens, idx, options, env, self);
+          // };
+        }
+      });
+    // .end();
+
+
+    // markdown-to-vue-loader
     // config.module
-    //   .rule('vmd')
-    //   .test(/\.vmd$/)
-    //   .use('vmark-loader')
-    //   .loader('vmark-loader')
+    //   .rule('m2vmd')
+    //   .test(/\.m2vmd$/)
+    //   .use('vue-loader')
     //   .loader('vue-loader')
+    //   .end()
+    //   .use('markdown-to-vue-loader')
+    //   .loader('markdown-to-vue-loader')
     //   .end();
+    // // .options({
+    // //   componentNamespace: 'M2VNS',
+    // //   componentWrapper: `<section></section`,
+    // // });
+
+
+
+    // my-markdown-loader
+    // config.module
+    //   .rule('mmlmd')
+    //   .test(/\.mmlmd$/)
+    //   .use('my-markdown-loader')
+    //   .loader('my-markdown-loader')
+    //   .end();
+
+    // config.module
+    //   .rule('fmlmd')
+    //   .test(/\.fmlmd$/)
+    //   // .use('vue-loader')
+    //   // .loader('vue-loader')
+    //   // .end()
+    //   .use('frontmatter-markdown-loader')
+    //   .loader('frontmatter-markdown-loader')
+    //   .end();
+
+    // config.module
+    //   .rule('fmlvmd')
+    //   .test(/\.fmlvmd$/)
+    //   // .use('vue-loader')
+    //   // .loader('vue-loader')
+    //   // .end()
+    //   .use('frontmatter-markdown-loader')
+    //   .loader('frontmatter-markdown-loader')
+    //   .options({
+    //     vue: true
+    //   });
   }
 
 /*

@@ -18,9 +18,37 @@
               </div>
               <div
                 class="col-md-12 py-2">
-                <hr>
-                <hr>
-                <hr>
+
+                <hr style="border:5px solid cyan;">
+
+
+                <h6>vml-home-component</h6>
+                <vml-home-component/>
+
+                <hr style="border:5px solid cyan;">
+
+                <h6>vm-home-component</h6>
+                <vm-home-component/>
+
+                <hr style="border:5px solid cyan;">
+
+
+                <!--
+
+                <h6>m2v-home-component</h6>
+                <m2v-home-component/>
+
+                <hr style="border:5px solid cyan;">
+
+
+                <h6>mmlhometext</h6>
+                <div class="row">
+                  <div
+                    class="markdown-home"
+                    v-html="mmlhometext"/>
+                </div>
+
+                <hr style="border:5px solid cyan;">
 
                 <h4>fmlhometext</h4>
                 <pre style="font-size:12px;text-align:left;border:5px solid red;height:100px;width:100%;">{{ fmlhometext }}</pre>
@@ -32,41 +60,12 @@
                 </div>
 
 
-                <hr>
-                <hr>
-                <hr>
+                <hr style="border:5px solid cyan;">
 
                 <h4>fmlv-home-component</h4>
                 <fmlv-home-component/>
 
-
-                <hr>
-                <hr>
-                <hr>
-
-                <h6>m2v-home-component</h6>
-                <m2v-home-component/>
-
-                <hr>
-                <hr>
-                <hr>
-
-                <h6>mmlhometext</h6>
-                <pre style="font-size:12px;text-align:left;border:5px solid red;height:100px;width:100%;">{{ mmlhometext }}</pre>
-
-                <div class="row">
-                  <div
-                    class="markdown-home"
-                    v-html="mmlhometext"/>
-                </div>
-
-
-                <h6>vml-home-component</h6>
-                <vml-home-component/>
-
-                <hr>
-                <hr>
-                <hr>
+               -->
 
                 <p class="intro-text">
                   Advancing translational science by semantically integrating
@@ -355,14 +354,15 @@ import MonarchAutocomplete from '@/components/MonarchAutocomplete.vue';
 import HomeFooter from '@/components/HomeFooter.vue';
 import getNewsItems from '@/api/News';
 
-import FMLHomeComponent from './Home.fmlmd';
-import FMLVHomeComponent from './Home.fmlvmd';
-import M2VHomeComponent from './Home.m2vmd';
-import MMLHomeText from './Home.mmlmd';
+// import FMLHomeComponent from './Home.fmlmd';
+// import FMLVHomeComponent from './Home.fmlvmd';
+// import M2VHomeComponent from './Home.m2vmd';
+// import MMLHomeText from './Home.mmlmd';
 import VMLHomeComponent from './Home.vmlmd';
+import VMHomeComponent from './Home.vmd';
 import MarkdownComponent from '@/components/Markdown.vue';
 
-console.log('FMLVHomeComponent', FMLVHomeComponent);
+console.log('VMHomeComponent', VMHomeComponent);
 
 
 export default {
@@ -370,17 +370,18 @@ export default {
   components: {
     'monarch-autocomplete': MonarchAutocomplete,
     'home-footer': HomeFooter,
-    'fmlv-home-component': FMLVHomeComponent.vue.component,
-    'm2v-home-component': M2VHomeComponent,
+    // 'fmlv-home-component': FMLVHomeComponent.vue.component,
+    // 'm2v-home-component': M2VHomeComponent,
     // 'mml-home-component': MMLHomeComponent,
     'vml-home-component': VMLHomeComponent,
+    'vm-home-component': VMHomeComponent,
     'markdown-component': MarkdownComponent,
   },
   data() {
     return {
       newsItems: [],
-      fmlhometext: FMLHomeComponent.html,
-      mmlhometext: MMLHomeText
+      // fmlhometext: FMLHomeComponent.html,
+      // mmlhometext: MMLHomeText
     };
   },
   async mounted() {

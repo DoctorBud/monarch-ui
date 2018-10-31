@@ -2,13 +2,15 @@
 
 Advancing translational science by semantically integrating biological information across species.
 
-- [vue-markdown-loader](https://github.com/QingWei-Li/vue-markdown-loader)
+- [vmark](https://github.com/egoist/vmark)
+- [vmark-loader](https://github.com/egoist/vmark-loader)
 - [markdown-it](https://github.com/markdown-it/markdown-it)
-- [markdown-it-link-attributes](https://github.com/crookedneighbor/markdown-it-link-attributes)
+- [markdown-it Renderer Customization](https://github.com/markdown-it/markdown-it/blob/master/docs/architecture.md#renderer)
 
 ### The Monarch Initiative
 
-xxOur philosophy is based on the premise that we want to make all the data count. We are driven to truly integrate biological information using semantics, and present it in a novel way, leveraging phenotypes to bridge the knowledge gap
+Our philosophy is based on the premise that we want to make all the data count. We are driven to truly integrate biological information using semantics, and present it in a novel way, leveraging phenotypes to bridge the knowledge gap
+
 
 
 <div class="col-12">

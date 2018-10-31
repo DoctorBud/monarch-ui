@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 // import Analytics from './views/Analytics.vue';
 import Node from './views/Node.vue';
+import VMHomeComponent from '@/views/Home.vmd';
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/vm',
+      name: 'homevm',
+      component: VMHomeComponent,
     },
     {
       path: '/search/:query',

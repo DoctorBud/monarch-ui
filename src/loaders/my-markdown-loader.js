@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-console.log('my-markdown-lodaer');
+console.log('my-markdown-loader');
 
 const marked = require('marked');
 const loaderUtils = require('loader-utils')
