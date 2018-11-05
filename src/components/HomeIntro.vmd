@@ -1,0 +1,84 @@
+<div class="intro">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="brand-heading m-0 p-0">
+          <img
+            class="center-block text-center img-fluid"
+            style="max-height:80px;"
+            src="../assets/img/monarch-logo-white-stacked.png">
+        </div>
+      </div>
+      <div class="col-md-12 intro-text">
+
+Advancing *translational science* by semantically integrating biological information across species.
+
+<div>
+<embedded-autocomplete
+  :home-search="true"
+  :show-search-button="true"
+  :auto-focus="true"
+/>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+import MonarchAutocomplete from '@/components/MonarchAutocomplete.vue';
+
+export default {
+  name: 'Home',
+  components: {
+    'embedded-autocomplete': MonarchAutocomplete,
+  },
+};
+
+</script>
+
+<style lang="scss">
+@import "~@/style/variables";
+
+div.intro {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 20px 0;
+  text-align: center;
+  color: white;
+  background-color: $monarch-bg-color;
+  border:5px solid orange;
+
+  vertical-align: middle;
+
+  .brand-heading {
+    padding: 20px 0 20px 0;
+  }
+  .intro-text {
+    margin: 5px;
+    font-size: 18px;
+  }
+
+  ul {
+    max-height: 350px;
+    overflow-y: auto;
+    list-style-type: none;
+    line-height: 1.5rem;
+    border:5px solid red;
+  }
+  ul li {
+    padding: 0;
+    margin: 0;
+    line-height: .5em;
+  }
+
+  @media(min-width:$grid-float-breakpoint) {
+    .intro-text {
+      font-size: 22px;
+      line-height: 1.2em;
+    }
+  }
+}
+</style>
