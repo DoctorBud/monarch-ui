@@ -4,6 +4,12 @@ const markdownIt = require('markdown-it')({
   linkify: true
 });
 const mila = require('markdown-it-link-attributes');
+const milaOptions = {
+  attrs: {
+    target: '_blank',
+    rel: 'noopener'
+  }
+};
 
 module.exports = {
   outputDir: 'docs',
@@ -21,18 +27,15 @@ module.exports = {
     // - [markdown-it](https://github.com/markdown-it/markdown-it)
     // - [markdown-it-link-attributes](https://github.com/crookedneighbor/markdown-it-link-attributes)
 
-    markdownIt.preventExtract = true;
+    // markdownIt.preventExtract = true;
     markdownIt.raw = true;
     markdownIt.wrapper = 'div';
-    markdownIt.__vueMarkdownOptions__ = {};
+    // markdownIt.use = [
+    //   [mila, milaOptions]
+    // ];
 
     markdownIt.preprocess = function preprocess(md, source) {
-      md.use(mila, {
-        attrs: {
-          target: '_blank',
-          rel: 'noopener'
-        }
-      });
+      md.use(mila, milaOptions);
 
       // // Remember old renderer, if overriden, or proxy to default renderer
       // const defaultRender = md.renderer.rules.link_open || function defaultRender(tokens, idx, options, env, self) {
@@ -59,8 +62,8 @@ module.exports = {
     };
 
     config.module
-      .rule('vmlmd')
-      .test(/\.vmlmd$/)
+      .rule('md')
+      .test(/\.md$/)
       .use('vue-loader')
       .loader('vue-loader')
       .end()
@@ -73,27 +76,6 @@ module.exports = {
     //   wrapper: 'article',
     //   options: markdownIt
     // });
-
-
-    // vmark-loader
-    // config.module
-    //   .rule('vmd')
-    //   .test(/\.vmd$/)
-    //   .use('vue-loader')
-    //   .loader('vue-loader')
-    //   .end()
-    //   .use('vmark-loader')
-    //   .loader('vmark-loader')
-    //   .options({
-    //     extend: function extend(md) {
-    //       md.use(mila, {
-    //         attrs: {
-    //           target: '_blank',
-    //           rel: 'noopener'
-    //         }
-    //       });
-    //     }
-    //   });
 
     config.module
       .rule('vue')

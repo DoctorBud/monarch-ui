@@ -18,44 +18,41 @@
   </div>
 </template>
 
+
+<style lang="scss">
+  @import "~@/style/variables";
+
+
+  div.container-fluid.monarch-view.monarch-home-view {
+    background: $monarch-bg-color;
+    > .row > div {
+      width: 100%;
+    }
+
+    // //
+    // // Horizontal borders for debugging home page layout
+    // //
+    // > div:not(.row),
+    // > .row > div {
+    //   border-top:2px solid orange;
+    //   border-bottom:2px solid orange;
+    // }
+  }
+</style>
+
+
 <script>
 export default {
   name: 'Home',
   components: {
-    'vml-home-intro-component': require('@/components/HomeIntro.vmlmd').default,
-    'vml-home-about-monarch-component': require('@/components/HomeAboutMonarch.vmlmd').default,
-    'vml-home-what-we-do-component': require('@/components/HomeWhatWeDo.vmlmd').default,
-    'vml-home-news-component': require('@/components/HomeNews.vmlmd').default,
-    'vml-home-data-component': require('@/components/HomeData.vmlmd').default,
-    'vml-home-partners-component': require('@/components/HomePartners.vmlmd').default,
+    'vml-home-intro-component': require('@/components/HomeIntro.md').default,
+    'vml-home-about-monarch-component': require('@/components/HomeAboutMonarch.md').default,
+    'vml-home-what-we-do-component': require('@/components/HomeWhatWeDo.md').default,
+    'vml-home-news-component': require('@/components/HomeNews.md').default,
+    'vml-home-data-component': require('@/components/HomeData.md').default,
+    'vml-home-partners-component': require('@/components/HomePartners.md').default,
 
     'home-footer': require('@/components/HomeFooter.vue').default,
   },
 };
 </script>
-
-<style lang="scss">
-  @import "~@/style/variables";
-
-  .container-fluid.monarch-view.monarch-home-view > div:not(.row) {
-    border-top:1px solid orange; // For debugging home page layout
-    border-bottom:1px solid orange; // For debugging home page layout
-  }
-  .container-fluid.monarch-view.monarch-home-view > .row > div {
-    border-top:1px solid cyan; // For debugging home page layout
-    border-bottom:1px solid cyan; // For debugging home page layout
-    width: 100%;
-  }
-
-  //
-  // Default classes for subelements of Home
-  // Potentially overridden by the various subelements
-  //
-  .monarch-home-view p {
-    font-size: 18px;
-
-    @media(min-width:$grid-float-breakpoint) {
-      font-size: 20px;
-    }
-  }
-</style>

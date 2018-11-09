@@ -23,26 +23,24 @@
 @import "~@/style/variables";
 
 .features-section {
-  height: auto;
   width: 100%;
   text-align: center;
-  font-size: 18px;
-  background-color: #E8E8E8;
-  background-size: cover;
+  padding: 15px;
+  background-color: $home-section-dark-bg;
+
+  ul {
+    list-style-type: none;
+    padding: 0 15px;
+
+    li {
+      line-height: 1.4rem;
+    }
+  }
+
+  .btn.btn-dark {
+    color: white;
+    transition: all .3s ease-in-out;
+  }
 }
 
-.features-section ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.features-section ul li {
-  line-height: 1.3rem;
-  padding: 10px;
-}
-
-.features-section .btn.btn-dark {
-  color: white;
-  transition: all .3s ease-in-out;
-}
 </style>

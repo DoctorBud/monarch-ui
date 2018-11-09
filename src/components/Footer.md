@@ -33,10 +33,10 @@
 
 div.footer {
   margin: 0px;
-  padding: 15px 0px;
+  padding: 0;
 
-  height: auto;
-  text-align: center;
+  font-size: 0.875rem;
+  text-align: left;
   color: white;
   background-color: $monarch-bg-color;
 

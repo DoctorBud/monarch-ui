@@ -44,7 +44,7 @@ export default new Router({
     {
       path: '/about/monarch',
       name: 'about-monarch',
-      component: require('@/views/AboutMonarch.vmlmd').default,
+      component: require('@/views/AboutMonarch.md').default,
     },
     {
       path: '/search/:query',

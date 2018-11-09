@@ -1,5 +1,6 @@
 $navbar-height: 36px !default;
 
+// $body-color:                $gray-900 !default;
 // $font-size-base: 0.875rem;		// 14px !default;
 $font-family-base: "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
@@ -8,6 +9,8 @@ $grid-float-breakpoint: 700px;
 $link-color: #0088ce;
 
 $monarch-bg-color: #15556A;
+$home-section-light-bg: ghostwhite;
+$home-section-dark-bg: ivory;
 
 $navbar-padding-y:          0 !default;
 $nav-link-padding-y:        0 !default;
@@ -23,3 +26,4 @@ $grid-breakpoints: (
 ) !default;
 
 $collapsed-sidebar-width: 55px;
+

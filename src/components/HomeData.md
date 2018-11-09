@@ -46,8 +46,7 @@
 .data-section {
   padding-top: 50px;
   padding-bottom: 50px;
-  font-size: 18px;
-  background: #EBEBEB;
+  background: $home-section-dark-bg;
   text-align: center;
 }
 </style>

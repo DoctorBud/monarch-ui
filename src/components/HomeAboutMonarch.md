@@ -12,7 +12,8 @@ Our philosophy is based on the premise that we want to make all the data count. 
 @import "~@/style/variables";
 
 div.about-monarch-section {
-  font-size: 18px;
   text-align: center;
+  padding: 15px 0;
+  background: $home-section-light-bg;
 }
 </style>

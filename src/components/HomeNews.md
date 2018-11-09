@@ -2,11 +2,9 @@
   <div class="row">
     <div class="col-sm">
 
-
 ##### News from [@MonarchInit](https://medium.com/@MonarchInit)
 
-
-<br>
+<div></div>
       <ul class="list-inline">
         <li
           v-for="(item, index) in newsItems"
@@ -22,11 +20,9 @@
     </div>
     <div class="col-sm">
 
+##### <i class="fa fa-twitter fa-fw"></i> Tweets from [@MonarchInit](https://twitter.com/MonarchInit)
 
-#####  <i class="fa fa-twitter fa-fw"></i> Tweets from [@MonarchInit](https://twitter.com/MonarchInit)
-
-
-<br>
+<div></div>
       <a
         class="twitter-timeline"
         href="https://twitter.com/TheDoctorBud/lists/monarchinitiative1?ref_src=twsrc%5Etfw"
@@ -36,8 +32,28 @@
         @MonarchInit
       </a>
     </div>
+
   </div>
 </div>
+
+
+<style lang="scss">
+@import "~@/style/variables";
+
+div.news-section {
+  text-align: center;
+  background: $home-section-light-bg;
+
+  ul {
+    padding: 0 10px;
+    text-align: left;
+
+    li {
+      line-height: 1.3em;
+    }
+  }
+}
+</style>
 
 
 <script>
@@ -72,19 +88,3 @@ export default {
   }
 };
 </script>
-
-
-<style lang="scss">
-@import "~@/style/variables";
-
-div.news-section {
-  h5 {
-    text-align: center;
-  }
-
-  ul li {
-    font-size: 18px;
-    line-height: 1.2em;
-  }
-}
-</style>

@@ -7,7 +7,7 @@
   id="monarch-logo-stacked"
   src="../assets/img/monarch-logo-black-stacked.png"
   align="right"
-  height="120px"/>
+  style="height:120px;margin:20px;"/>
 
 - Integrate, align, and re-distribute cross-species gene, genotype, variant, disease, and phenotype data
 - Provide a portal for exploration of phenotype-based similarity
@@ -26,7 +26,7 @@ Our philosophy is based on the premise that we want to *make all the data count*
 It is well-known that mutations in orthologous genes and genes in the same signaling pathway often manifest in similar phenotypes, and therefore study of variant phenotypes in model systems may provide insight into human gene function and understanding of disease. For example, mutations in [PAX6](/gene/NCBIGene:5080), which gives rise to the condition [Aniridia](/disease/OMIM:106210) with striking eye phenotypes, also cause eye phenotypic abnormalities in mouse, zebrafish, and flies, including [abnormal lenses](/phenotype/HP_0000517), [underdeveloped](/phenotype/HP_0000517) or even [absent eyes](/phenotype/MP_0001286).
 
 <figure class="right">
-  <img src="http://journals.plos.org/plosbiology/article/figure/image?id=10.1371/journal.pbio.1000247.g001&size=medium" style="max-height:300px" />
+  <img src="http://journals.plos.org/plosbiology/article/figure/image?id=10.1371/journal.pbio.1000247.g001&size=medium" style="max-height:300px;" />
   <figcaption>
 
 Fig 1. Comparison of PAX6 abnormal phenotypes in human and model organism eyes. (Image from [Washington et al, 2009](http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1000247))
@@ -77,7 +77,9 @@ We import data from a variety of data sources in formats including databases, sp
 <figure class="center">
   <img src="../assets/img/ingest_curation_workflow.png" width="75%" style="max-width:750px" />
   <figcaption class="center">
-    Fig 3. The Monarch Initiative data workflow.
+
+Fig 3. The Monarch Initiative data workflow.
+
   </figcaption>
 </figure>
 
@@ -102,7 +104,10 @@ These ontologies are merged into monarch.owl, and used to drive the system.
 
 Once data has been ingested and transformed as above, it is ready for loading into our semantic similarity engine. [OWLSim](http://www.owlsim.org/) enables search, comparison, and analysis of semantic annotations between entities (genes, genotypes, diseases, etc.), leveraging ontologies and computational reasoners. In the case of Monarch, we currently utilize OWLSim for analysis of collections of abnormal phenotypes attributed to genes, genotypes, variants, and diseases. OWLSim is what computes the similarity values in the phenogrid, annotation sufficiency scores for each entity, and provides the engine behind the [Analyze](https://monarchinitiative.org/analyze/phenotypes/) and Compare functions. The scores are based on a hybrid model of information content (IC) and Jaccard, further described in [Smedley et al (2013)](http://database.oxfordjournals.org/content/2013/bat025.long). We are currently working on new algorithms that will allow consideration of both abnormal and remarkably normal (NOT abnormal) phenotypes when searching and comparing collections of phenotypes.
 
-<figure class="bottomright" href="#fig4">
+##### Analysis
+
+
+<figure class="right" href="#fig4">
   <img src="../assets/img/pheno_species_coverage.jpg" height="200px">
   <figcaption>
 
@@ -111,8 +116,6 @@ Fig 4. Availability of curated phenotypes (black) attributed to human genes (dir
   </figcaption>
 </figure>
 
-
-##### Analysis
 
 Given the integrated data sources, and their semantic mappings, we can start to do broad analysis of the data landscape. For example, we have found that while &lt;40% of human genes have been linked to phenotypes either directly, via GWAS studies, or inferred through disease associations, there is &gt;75% coverage (via orthology) when you expand to the five most-typically studied model organisms ([Fig 4](#fig4)). As we expand our database to include other organisms, this is sure to rise.
 
@@ -123,6 +126,14 @@ We can also confirm what we have known for a long time, which is that different 
 
 We are proud to work with several organizations to develop ontologies, drive community standards, research rare disease, and influence publishers and the research community to make research results more identifiable and reproducible, including:
 
+
+| | | |
+|:---|:---:|---:|
+| [![NIH Undiagnosed Disease Program](../assets/img/partner-udp.png)](http://www.rarediseases.info.nih.gov/research/pages/27/undiagnosed-diseases-program) | [![Global Alliance](../assets/img/partner-globalalliance.jpg)](http://genomicsandhealth.org/) | [![International Rare Diseases Research Consortium](../assets/img/partner-irdirc.png)](http://www.irdirc.org/) |
+| [![](../assets/img/partner-phenomecentral.png)](http://phenomecentral.org) | [![](../assets/img/partner-biolark.png)](http://bio-lark.org) | [![](../assets/img/partner-go.png)](www.geneontology.org) |
+| [![PhenoTips](../assets/img/partner-phenotips.jpg)](https://phenotips.org) | [![Disease Ontology](../assets/img/partner-do.png)](https:www.disease-ontology.org) | [![Force11](../assets/img/partner-force11.png)](https://www.force11.org)
+
+<!--
 <table class="collab-table">
   <tr>
     <td><a href="http://www.rarediseases.info.nih.gov/research/pages/27/undiagnosed-diseases-program"><img src="../assets/img/partner-udp.png" alt="NIH Undiagnosed Disease Program"></a></td>
@@ -139,38 +150,27 @@ We are proud to work with several organizations to develop ontologies, drive com
     <td><a href="http://www.disease-ontology.org"><img src="../assets/img/partner-do.png" alt="Disease Ontology"></a></td>
     <td><a href="https://www.force11.org"><img src="../assets/img/partner-force11.png" alt="Force11"></a></td>
   </tr>
-</table>
+</table> -->
+
 
 <about-footer></about-footer>
 </div>
-
-
-<script>
-export default {
-  name: 'AboutMonarch',
-  components: {
-    'about-intro-component': require('@/components/HomeIntro.vmlmd').default,
-    'about-about-monarch-component': require('@/components/HomeAboutMonarch.vmlmd').default,
-    'about-what-we-do-component': require('@/components/HomeWhatWeDo.vmlmd').default,
-    'about-news-component': require('@/components/HomeNews.vmlmd').default,
-    'about-data-component': require('@/components/HomeData.vmlmd').default,
-    'about-partners-component': require('@/components/HomePartners.vmlmd').default,
-    'about-footer': require('@/components/Footer.vmlmd').default,
-  },
-};
-</script>
 
 
 <style lang="scss">
 @import "~@/style/variables";
 
 .container-fluid.monarch-view.monarch-about-view {
-  ul {
-    list-style-position: inside;
+  h1, h2, h3, h4, h5, h6 {
+    clear:both;
   }
+
   figure {
     display:table;
-    padding: 15px;
+
+    img {
+      padding:15px;
+    }
   }
 
   .right {
@@ -205,6 +205,23 @@ export default {
     line-height: 16px;
   }
 
+
+  table {
+    margin: auto;
+    text-align: center;
+    td a img {
+      max-width: 120px;
+      margin: 5px;
+    }
+
+    @media(min-width:$grid-float-breakpoint) {
+      td a img {
+        max-width: 200px;
+      }
+    }
+  }
+
+/*
   .collab-table {
     table-layout: fixed;
     width: 100%;
@@ -222,6 +239,7 @@ export default {
     max-height: 125px;
     max-width: 125px;
   }
+*/
 
   > div:not(.row) {
     border-top:1px solid orange; // For debugging about page layout
@@ -235,3 +253,19 @@ export default {
 }
 
 </style>
+
+
+<script>
+export default {
+  name: 'AboutMonarch',
+  components: {
+    'about-intro-component': require('@/components/HomeIntro.md').default,
+    'about-about-monarch-component': require('@/components/HomeAboutMonarch.md').default,
+    'about-what-we-do-component': require('@/components/HomeWhatWeDo.md').default,
+    'about-news-component': require('@/components/HomeNews.md').default,
+    'about-data-component': require('@/components/HomeData.md').default,
+    'about-partners-component': require('@/components/HomePartners.md').default,
+    'about-footer': require('@/components/Footer.md').default,
+  },
+};
+</script>
