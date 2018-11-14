@@ -69,8 +69,8 @@
           </b-dropdown-item>
 
           <b-dropdown-item
-            to="/page/team">
-            Team
+            to="/about/team">
+            About Us
           </b-dropdown-item>
 
           <b-dropdown-item

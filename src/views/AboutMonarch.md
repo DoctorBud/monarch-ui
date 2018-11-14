@@ -240,31 +240,14 @@ We are proud to work with several organizations to develop ontologies, drive com
     max-width: 125px;
   }
 */
-
-  > div:not(.row) {
-    border-top:1px solid orange; // For debugging about page layout
-    border-bottom:1px solid orange; // For debugging about page layout
-  }
-
-  > .row > div {
-    border-top:1px solid cyan; // For debugging about page layout
-    border-bottom:1px solid cyan; // For debugging about page layout
-  }
 }
 
 </style>
-
 
 <script>
 export default {
   name: 'AboutMonarch',
   components: {
-    'about-intro-component': require('@/components/HomeIntro.md').default,
-    'about-about-monarch-component': require('@/components/HomeAboutMonarch.md').default,
-    'about-what-we-do-component': require('@/components/HomeWhatWeDo.md').default,
-    'about-news-component': require('@/components/HomeNews.md').default,
-    'about-data-component': require('@/components/HomeData.md').default,
-    'about-partners-component': require('@/components/HomePartners.md').default,
     'about-footer': require('@/components/Footer.md').default,
   },
 };
