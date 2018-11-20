@@ -1,7 +1,7 @@
 <div
-  class="features-section">
+  class="home-page-section features-section">
 
-## What We Do
+### What We Do
 
 - Integrate, align, and re-distribute cross-species gene, genotype, variant, disease, and phenotype data.
 - Provide a portal for exploration of phenotype-based similarity.
@@ -21,6 +21,7 @@
 
 <style lang="scss">
 @import "~@/style/variables";
+@import "~@/style/home-page";
 
 .features-section {
   width: 100%;

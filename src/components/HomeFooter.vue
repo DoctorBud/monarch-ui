@@ -65,7 +65,7 @@
 
 div.home-footer {
   margin: 0px;
-  padding: 0;
+  padding: 20px 10px;
 
   width: 100%;
   text-align: center;

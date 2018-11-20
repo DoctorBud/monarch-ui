@@ -1,3 +1,33 @@
+/* eslint-disable */
+
+/*
+  vue-markdown-loader-improved.js
+
+  This custom webpack loader will load Markdown source files that
+  optionally contain script and style sections, and will generate a
+  VueJS component suitable for mounting in a VueJS application.
+
+  This loader was extracted and modified from:
+    https://github.com/QingWei-Li/vue-markdown-loader
+  Eventually, I hope to merge my fixes and changes back into that
+  repo. However, the license is WTFPL, so I'm going to take advantage
+  of the convenience of having a single file in our repo, rather than
+  maintaining two repos.
+
+  To see the changes made between the vue-markdown-loader and this
+  version, use:
+  > diff \
+    src/loaders/vue-markdown-loader-improved.js \
+    node_modules/vue-markdown-loader/lib/markdown-compiler.js
+  Changes from the above loader so far:
+  - Add 'wrapperClass' option, which will be assigned as a CSS class
+  to the 'wrapper' element.
+
+  I want to eventually move some of the custom configuration from vue.config.js
+  into this loader, perhaps configurable via an option.
+
+*/
+
 var loaderUtils = require('loader-utils');
 var hljs = require('highlight.js');
 var cheerio = require('cheerio');
@@ -32,7 +62,7 @@ var renderHighlight = function(str, lang) {
  * @param  {[type]} html [description]
  * @return {[type]}      [description]
  */
-var renderVueTemplate = function(html, wrapper) {
+var renderVueTemplate = function(html, wrapper, wrapperClass) {
   var $ = cheerio.load(html, {
     decodeEntities: false,
     lowerCaseAttributeNames: false,
@@ -50,7 +80,7 @@ var renderVueTemplate = function(html, wrapper) {
   $('script').remove();
 
   result =
-    `<template><${wrapper}>` +
+    `<template><${wrapper} class="${wrapperClass}">` +
     $.html() +
     `</${wrapper}></template>\n` +
     output.style +
@@ -86,7 +116,8 @@ module.exports = function(source) {
         preset: 'default',
         html: true,
         highlight: renderHighlight,
-        wrapper: 'section'
+        wrapper: 'section',
+        wrapperClass: 'vue-markdown'
       },
       opts
     );
@@ -159,7 +190,7 @@ module.exports = function(source) {
   source = source.replace(/@/g, '__at__');
 
   var content = parser.render(source).replace(/__at__/g, '@');
-  var result = renderVueTemplate(content, opts.wrapper);
+  var result = renderVueTemplate(content, opts.wrapper, opts.wrapperClass);
 
   if (opts.raw) {
     return result;

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container-fluid monarch-view monarch-home-view">
+    class="container-fluid monarch-home-view">
 
     <div class="row">
       <vml-home-intro-component/>
@@ -22,8 +22,8 @@
 <style lang="scss">
   @import "~@/style/variables";
 
-
-  div.container-fluid.monarch-view.monarch-home-view {
+  div.container-fluid.monarch-home-view {
+    margin-top: $navbar-height;
     background: $monarch-bg-color;
     > .row > div {
       width: 100%;

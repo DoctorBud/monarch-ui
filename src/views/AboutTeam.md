@@ -1,7 +1,10 @@
 <div
-  class="container-fluid monarch-view monarch-about-view">
+  class="container-fluid monarch-view monarch-team-view">
   <div class="content">
-    <h1 class="text-center">Monarch Development Team</h1>
+
+# Monarch People and their Institutions
+
+<div></div>
     <div class="card p-3 bg-light">
       <h3>
         Participating Institutions
@@ -22,7 +25,7 @@
     <div
       v-for="institution in institutions"
       v-bind:id="institution.id"
-      class="card py-2 team">
+      class="institution-target">
       <h3>
         <a
           v-bind:href="institution.website"
@@ -37,33 +40,36 @@
       <div
         v-for="member in institution.people"
         class="teammember">
-        <div class="memberhead">
-          <div class="membername">{{ member.name }}</div>
-          <div class="membertitle">{{ member.title }}</div>
-        </div>
-        <img
-          class="memberpicture"
-          v-bind:src="member.picture"/>
-        <div class="clear"></div>
-        <div class="memberbio">
-          {{ member.bio }}
-        </div>
-        <!--
-        <div class="membercontact">
-          {{#email}}
-          <a title="email" href="mailto:{{email}}" target="_blank"><img class="contactlogo" src="/image/logo-email.png" /></a> {{/email}} {{#website}}
-          <a title="website" href="{{{website}}}" target="_blank"><img class="contactlogo" src="/image/logo-website.png" /></a> {{/website}} {{#twitter}}
-          <a title="twitter" href="{{{twitter}}}" target="_blank"><img class="contactlogo" src="/image/logo-twitter.png" /></a> {{/twitter}} {{#facebook}}
-          <a title="facebook" href="{{{facebook}}}" target="_blank"><img class="contactlogo" src="/image/logo-facebook.png" /></a> {{/facebook}}
-        </div>
-        -->
+        <template
+          v-if="member.alumni">
+          <div class="teammember">
+            <div class="membername">{{ member.name }} (alumni {{ member.title }})</div>
+          </div>
+        </template>
+        <template
+          v-else="!member.alumni">
+          <div class="memberhead">
+            <div class="membername">{{ member.name }}</div>
+            <div class="membertitle">{{ member.title }}</div>
+          </div>
+          <img
+            class="memberpicture"
+            v-bind:src="member.picture"/>
+          <div class="clear"></div>
+          <div class="memberbio">
+            {{ member.bio }}
+          </div>
+          <!--
+          <div class="membercontact">
+            {{#email}}
+            <a title="email" href="mailto:{{email}}" target="_blank"><img class="contactlogo" src="/image/logo-email.png" /></a> {{/email}} {{#website}}
+            <a title="website" href="{{{website}}}" target="_blank"><img class="contactlogo" src="/image/logo-website.png" /></a> {{/website}} {{#twitter}}
+            <a title="twitter" href="{{{twitter}}}" target="_blank"><img class="contactlogo" src="/image/logo-twitter.png" /></a> {{/twitter}} {{#facebook}}
+            <a title="facebook" href="{{{facebook}}}" target="_blank"><img class="contactlogo" src="/image/logo-facebook.png" /></a> {{/facebook}}
+          </div>
+          -->
+        </template>
       </div>
-<!--
-      <div class="teammember">
-        <div class="membername">{{name}} (alumni {{title}})</div>
-      </div>
-      {{/alumni}} {{/people}}
--->
   </div>
   <team-footer></team-footer>
 </div>
@@ -72,7 +78,7 @@
 <style lang="scss">
 @import "~@/style/variables";
 
-.container-fluid.monarch-view.monarch-about-view {
+.container-fluid.monarch-view.monarch-team-view {
   h1, h2, h3, h4, h5, h6 {
     clear:both;
   }
@@ -132,25 +138,53 @@
     }
   }
 
-/*
-  .collab-table {
-    table-layout: fixed;
-    width: 100%;
+  .institution-target {
+    padding-top: $navbar-height + 10px;
   }
-
-  .collab-table td {
-    width: 125px;
-    vertical-align: middle;
-    text-align: center;
+  .team {
+      padding: 0;
   }
-
-  .collab-table img {
-    margin-left: auto;
-    margin-right: auto;
-    max-height: 125px;
-    max-width: 125px;
+  .team h3 {
+      padding: 0;
   }
-*/
+  img.teamlogo {
+      display: inline-block;
+      height: 50px;
+      position: relative;
+      top: -15px;
+      float: right;
+  }
+  .teammember {
+      border-top: #428bca solid 1px;
+      padding: 10px 0px;
+  }
+  .membername {
+      font-weight: 500;
+      font-size: 16px;
+  }
+  .membertitle {
+      font-style: italic;
+      margin-bottom: 5px;
+  }
+  .memberbio {
+      display: inline-block;
+      line-height: 24px;
+      font-weight: 200;
+      font-family: Helvetica, Arial, sans-serif;
+  }
+  .memberhead {
+      float: left;
+  }
+  .memberpicture {
+      padding-left: 1em;
+      max-height: 45px;
+      height: auto;
+  }
+  .contactlogo {
+      padding-right: 0.5em;
+      max-height: 20px;
+      height: auto;
+  }
 }
 
 </style>

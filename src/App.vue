@@ -27,14 +27,27 @@ $fa-font-path: "~font-awesome/fonts" !default;
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
 
 .container-fluid.monarch-view {
-  margin-top: $navbar-height;
-  xheight: 100%;
-  xwidth: 100%;
-  xmargin: 0;
-  xpadding: 0;
+  xborder:5px solid orange;
 }
 
 [v-cloak] {
   display: none;
+}
+
+div.vue-markdown {
+  margin-top: $navbar-height;
+  xborder: 5px solid cyan;
+}
+
+div.container-fluid.monarch-home-view div.vue-markdown,
+div.container-fluid.monarch-view div.vue-markdown {
+  margin-top: 0;
+  xborder: 5px solid magenta;
+}
+
+div.vue-markdown-plain {
+  margin-top: $navbar-height;
+  padding: 20px;
+  xborder: 5px solid lightgreen;
 }
 </style>

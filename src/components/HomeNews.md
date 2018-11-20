@@ -1,4 +1,4 @@
-<div class="news-section">
+<div class="home-page-section news-section">
   <div class="row">
     <div class="col-sm">
 
@@ -39,6 +39,7 @@
 
 <style lang="scss">
 @import "~@/style/variables";
+@import "~@/style/home-page";
 
 div.news-section {
   text-align: center;

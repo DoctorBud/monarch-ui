@@ -49,6 +49,7 @@ institutions:
         alumni: false
         bio: Dan is a Software Engineer for the Monarch Initiative, within the OHSU Ontology Development Group. He works on the Monarch Initiative Portal and WebPhenote web applications, as well as helping with tooling and infrastructure. Dan has a BS in Computer Science from Northwestern University and a MS and PhD in Computer Science from University of Oregon, specializing in programming language metatheory, scientific workflow, and program analysis.
       - name: Tom Conlin
+        picture: /img/team/TomConlin.png
         title: Bioinformaticist
         alumni: false
         bio: Tom holds a BS in Mathematics and Computer Science and a MS in Computer Science with specialization in Parallel and Distributed Computing as applied to Bioinformatics, University of Oregon. Experienced with large scale data exchanges and model organism databases, Tom works primarily on the Monarch data ingest pipeline (Dipper) and on issues related to identifiers.
@@ -87,6 +88,7 @@ institutions:
         alumni: false
         bio: Suzi has an MS in Biology and MS in Computer Science. She is a scientist and Principal Investigator at the Berkeley Bioinformatics Open-source Project (BBOP) based at Lawrence Berkeley National Laboratory. She is one of the pioneers of developing open standards and software for genome annotation and ontologies.
       - name: Seth Carbon
+        picture: /img/team/person-unknown.png
         title: Software Engineer
         alumni: false
         bio: Seth is an occasional software engineer for the Monarch Initiative. He specializes in tools for science and education and has participated in projects in a broad range of fields, including Bioinformatics, Planetary Science, Geology, and Linguistics. His current focus is on capturing and making use of ontology and annotation data. His educational background is undergraduate degrees in Mathematics and Computer Science (UCSC).
@@ -105,6 +107,7 @@ institutions:
         alumni: false
         bio: Deepak Unni has an MS in Bioinformatics from Georgia Tech and has previously worked on NGS data analysis, genomic data integration, and the development of Apollo - a manual collaborative genome annotation editing tool. He joined Berkeley Bioinformatics Open-source Projects (BBOP), at LBNL, in 2018.
       - name: Jeremy Nguyen Xuan
+        picture: /img/team/person-unknown.png
         title: Software Engineer
         alumni: true
         bio: Jeremy has a MS in Computer Science from the École polytechnique fédérale de Lausanne (EPFL). After spending three years at CERN in the Beams department and a year in a finance company, he joined LBNL in 2015.
@@ -124,6 +127,7 @@ institutions:
         alumni: true
         bio: Dr. Washington has a BS in Biology from Harvey Mudd College and a Ph.D. in Molecular and Cellular Biology from The University of Arizona where she focused on the study of the C. elegans as a model for human disease. She is interested in the intersection of computers with biological research, in particular making tools to realize hidden connections in diverse types of biological data and integrating large-scale experiments.
       - name: Sarah Kim
+        picture: /img/team/person-unknown.png
         title: Web Developer/Designer
         alumni: true
         bio: Sarah is currently a undergraduate Computer Science student at UC Berkeley. She is working on the front-end of the Monarch website.
@@ -224,6 +228,7 @@ institutions:
         title: Monarch PI
         bio: Dr. Hochheiser is currently a PI of the Monarch Initiative. He has BS and MS in Computer Science and Engineering from MIT and a Ph.D. in Computer Science from University of Maryland. His research interests lie at the intersection of biomedical informatics and human-computer interaction (HCI). His ongoing research efforts involve the application of contextual inquiry, human-centered design, information visualization, and other HCI techniques to challenges in collaborative bioinformatics and clinical informatics.
       - name: Michael Davis
+        picture: /img/team/person-unknown.png
         alumni: true
         title: Software Developer
         bio: Michael is a Software Engineer for the Department of Biomedical Informatics (DBMI) at the University of Pittsburgh where he works on the development of Phenogrid.  He has an MS in Information Science from the University of Pittsburgh. He has worked for several years developing oncology-based database applications at UPMC CancerCenter. His current interest is the development and integration of analytical tools to support big data repositories in research.
@@ -234,9 +239,11 @@ institutions:
         bio: Zhou is a Web Application Developer working on the development of Phenogrid in the Department of Biomedical Informatics (DBMI) at the University of Pittsburgh. He has an MS in Information Science from the University of Pittsburgh. He is also the creator of InfoPotao, Quotagger, PotatoPy, and PotatoGuide. He works as an enthusiastic web developer who tries to create detailed designs to balance the aesthetics, web standards, security, usability, and accessibility aspects in support of biomedical research.
       - name: Chuck Borromeo
         alumni: true
+        picture: /img/team/person-unknown.png
         title: Interface Architect
         bio: Chuck is a programmer on a wide range of projects (e.g. FaceBase, Monarch, Ontology for Craniofacial Development and Malformations) in the Department of Biomedical Informatics. His responsibilities include leading the FaceBase development team and providing technical solutions on other projects. In the past, Chuck led the development of the Resource Discovery System (RDS) an application tracking 1500 scientific resources from several NIH research programs.
       - name: Jeremy Espino
+        picture: /img/team/person-unknown.png
         alumni: true
         title: Senior Research Scientist, Department of Biomedical Informatics
         bio: Jeremy is trained in General Medicine, Medical Informatics and Intelligent Systems.  His claim to fame is programming the first real-time disease surveillance system in 1999—the Real-time Outbreak and Disease Surveillance System (RODS).  RODS and its open source derivatives have subsequently been deployed in over 16 states and a couple of countries.  He has also managed the IT infrastructure of the National Retail Monitor which provides over-the-counter medication sales data from over 33,000 retail stores to health departments across the U.S..  In his free time he enjoys hacking micro controllers, piano and 3d printing.

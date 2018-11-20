@@ -1,4 +1,4 @@
-<div class="data-section">
+<div class="home-page-section data-section">
   <div class="row">
     <div class="col-sm">
       <router-link
@@ -42,6 +42,7 @@
 
 <style lang="scss">
 @import "~@/style/variables";
+@import "~@/style/home-page";
 
 .data-section {
   padding-top: 50px;
