@@ -53,7 +53,7 @@ const servers = {
 };
 
 
-const serverConfiguration = servers.production;
+const serverConfiguration = servers.beta;
 const biolink = serverConfiguration.biolink_url;
 
 function getBiolinkAnnotation(cardType) {
