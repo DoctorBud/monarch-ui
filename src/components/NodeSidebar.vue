@@ -71,7 +71,7 @@
               class="entity-type-icon">
             <span
               class="list-group-item-value">
-              {{ $parent.labels[cardType] }} ({{ cardCounts[cardType] }})
+              {{ $parent.labels[cardType] }} ({{ cardCounts[cardType].totalCount }}/{{ cardCounts[cardType].correctCount }})
             </span>
           </a>
         </li>
@@ -174,6 +174,7 @@ export default {
   },
 
   mounted() {
+    console.log('cardCounts', this.cardCounts);
   },
 
   methods: {

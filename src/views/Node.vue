@@ -565,11 +565,13 @@ export default {
 
       const nonEmptyCards = [];
       this.availableCards.forEach((cardType) => {
-        // console.log('cardType', cardType, that.node, that.node.counts);
         const count = that.node.counts[cardType];
-        that.counts[cardType] = count ? count.totalCount : 0;
-        if (that.counts[cardType] > 0) {
-          nonEmptyCards.push(cardType);
+        if (count) {
+          console.log('#cardType', cardType, that.node, count);
+          that.counts[cardType] = count;
+          if (count.totalCount > 0) {
+            nonEmptyCards.push(cardType);
+          }
         }
       });
       this.nonEmptyCards = nonEmptyCards;

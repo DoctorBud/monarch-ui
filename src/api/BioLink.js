@@ -127,7 +127,12 @@ const nodeAssociationTypes = {
   ],
 
   literature: [
-    'disease'
+    'disease',
+    'genotype',
+    'phenotype',
+    'gene',
+    'model',
+    'variant',
   ],
 
   model: [
@@ -170,7 +175,7 @@ const nodeAssociationTypes = {
   ]
 };
 
-async function getCounts(nodeId, nodeType, countType) {
+async function getCountsOld(nodeId, nodeType, countType) {
   if (countType !== 'literature') {
     countType += 's';
   }
@@ -203,14 +208,22 @@ function idToType(nodeId) {
   if (nodeId.indexOf('MONDO:') === 0) {
     result = 'disease';
   }
-  else if (nodeId.indexOf('HP:') === 0) {
+  else if (nodeId.indexOf('HP:') === 0 || nodeId.indexOf('MP:') === 0) {
     result = 'phenotype';
   }
-
+  else if (nodeId.indexOf('HGNC:') === 0) {
+    result = 'gene';
+  }
+  // else if (nodeId.indexOf('MGI:') === 0) {
+  //   result = 'genotype';
+  // }
+  else {
+    console.log('idToType', nodeId);
+  }
   return result;
 }
 
-async function getLiteratureAssociationCounts(nodeId) {
+async function getLiteratureAssociationCountsOld(nodeId) {
   const associationsResultMap = {};
 
   const bioentityUrl = `${biolink}association/from/${nodeId}`;
@@ -261,16 +274,16 @@ async function getLiteratureAssociationCounts(nodeId) {
 }
 
 
-async function getCountsForNode(nodeId, nodeType) {
+async function getCountsForNodeOld(nodeId, nodeType) {
   let result = null;
   const associationTypes = nodeAssociationTypes[nodeType];
 
   if (nodeType === 'literature') {
-    result = await getLiteratureAssociationCounts(nodeId);
+    result = await getLiteratureAssociationCountsOld(nodeId);
   }
   else if (associationTypes) {
     const promisesArray = associationTypes.map((a) => {
-      const countPromise = getCounts(nodeId, nodeType, a);
+      const countPromise = getCountsOld(nodeId, nodeType, a);
       return countPromise;
     });
 
@@ -292,7 +305,6 @@ async function getCountsForNode(nodeId, nodeType) {
 
 async function getCountsForNodeNew(nodeId, nodeType) {
   const bioentityUrl = `${biolink}bioentity/${nodeType}/${nodeId}`;
-  console.log('getCountsForNodeNew', nodeId, nodeType);
   const bioentityParams = {
     fetch_objects: false,
     unselect_evidence: true,
@@ -306,7 +318,39 @@ async function getCountsForNodeNew(nodeId, nodeType) {
   // console.log(bioentityResp.request.responseURL);
   // console.log(bioentityResponseData);
 
-  return bioentityResponseData;
+  const counts = bioentityResponseData.association_counts;
+
+  const result = {};
+  Object.keys(counts).forEach((c) => {
+    const count = counts[c];
+    let singularKey = c.slice(0, -1);
+    if (singularKey === 'publication') {
+      singularKey = 'literature';
+    }
+    result[singularKey] = {
+      facetCount: count,
+      totalCount: count
+    };
+  });
+
+  return result;
+}
+
+async function getCountsForNode(nodeId, nodeType) {
+  const countsOld = await getCountsForNodeOld(nodeId, nodeType);
+  const countsNew = await getCountsForNodeNew(nodeId, nodeType);
+
+  console.log('getCountsForNode', nodeId, nodeType);
+  Object.keys(countsOld).forEach((c) => {
+    if (!countsNew[c]) {
+      countsNew[c] = {};
+    }
+    countsNew[c].correctCount = countsOld[c] ? countsOld[c].totalCount : 0;
+  });
+  // console.log(JSON.stringify(countsOld, null, 2));
+  console.log(JSON.stringify(countsNew, null, 2));
+
+  return countsNew;
 }
 
 async function getURIForId(nodeId) {
@@ -360,16 +404,12 @@ export async function getNodeSummary(nodeId, nodeType) {
 
   // const assUrl = `${biolink}bioentity/${nodeId}/associations`;
 
+  // const countsMapOld = await getCountsForNode(nodeId, nodeType);
   const countsMap = await getCountsForNode(nodeId, nodeType);
 
   bioentityResponseData.counts = countsMap;
   // console.log('countsMap', nodeId, nodeType);
   // console.log(JSON.stringify(countsMap, null, 2));
-
-  // When BioLink's /bioentity/{nodeId}/{nodeType}?get_association_counts=true
-  // eventually works, we'll use the following.
-  // const countsMapNew = await getCountsForNodeNew(nodeId, nodeType);
-  // console.log('countsMapNew', countsMapNew);
 
   if (nodeType === 'disease') {
     bioentityResponseData.inheritance = 'BioLinkFIXME';
@@ -510,7 +550,7 @@ export async function getSearchTermSuggestions(term, selected, prefixes = []) {
 //
 async function getLiteratureAssociations(nodeId, cardType) {
   const bioentityUrl = `${biolink}association/from/${nodeId}`;
-  // console.log('getLiteratureAssociationCounts', nodeId, bioentityUrl);
+  // console.log('getLiteratureAssociations', nodeId, bioentityUrl);
 
   const bioentityParams = {
     fetch_objects: true,
@@ -553,7 +593,16 @@ export async function getNodeAssociations(nodeType, nodeId, cardType, params) {
         }
         else {
           // console.log('getNodeAssociations', nodeType, nodeId, cardType, url);
-          // console.log(JSON.stringify(responseData, null, 2));
+          // // console.log(JSON.stringify(responseData, null, 2));
+          // responseData.data.associations.forEach((a) => {
+          //   console.log('');
+          //   console.log(a.subject.id + '/' + a.subject.label);
+          //   console.log(a.relation.id + '/' + a.relation.label + '/' + a.relation.inverse);
+          //   console.log(a.object.id + '/' + a.subject.object);
+          //   // console.log(JSON.stringify(a.relation, null, 2));
+          //   // console.log(JSON.stringify(a.object, null, 2));
+          //   console.log('');
+          // });
           resolve(responseData);
         }
       })
