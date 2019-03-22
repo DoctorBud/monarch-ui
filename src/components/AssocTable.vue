@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <div
+    class="assoc-table">
     <div v-show="dataFetched">
       <h5>
         <strong>{{ totalItems }}</strong>&nbsp;
         <strong>{{ nodeType }}</strong> to
         <strong>{{ cardType }}</strong> associations
       </h5>
+
+
       <b-table
         ref="tableRef"
         :items="rowsProvider"
@@ -13,10 +16,15 @@
         :current-page="currentPage"
         :per-page="rowsPerPage"
         responsive="true"
-        class="table-sm table-border-soft"
-        @row-clicked="rowClickHandler"
+        hover
+        striped
+        selectable
+        select-mode="range"
+        selected-variant="success"
+        class="table-sm xtable-border-soft"
+        @row-selected="rowSelected"
       >
-
+<!--
         <template
           slot="show_details"
           slot-scope="row"
@@ -33,7 +41,7 @@
             />
           </button>
         </template>
-
+ -->
         <template
           slot="assocObject"
           slot-scope="data"
@@ -53,6 +61,20 @@
             </strong>
           </template>
         </template>
+
+        <template
+          slot="relation"
+          slot-scope="data"
+        >
+          <a
+            :href="data.item.relation.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ data.item.relation.label }}
+          </a>
+        </template>
+
         <template
           v-if="isGene"
           slot="taxon"
@@ -60,31 +82,93 @@
         >
           {{ data.item.taxonLabel }}
         </template>
+
         <template
           slot="evidence"
           slot-scope="data"
         >
           ({{ data.item.evidenceLength }})
         </template>
+
         <template
-          slot="references"
+          slot="publications"
           slot-scope="data"
         >
-          ({{ data.item.referencesLength }})
+          ({{ data.item.publicationsLength }})
         </template>
+
         <template
           slot="sources"
           slot-scope="data"
         >
           ({{ data.item.sourcesLength }})
         </template>
+
+        <template
+          slot="support"
+          slot-scope="data"
+        >
+          ({{ data.item.supportLength }})
+        </template>
+
         <template
           slot="row-details"
           slot-scope="row"
         >
-          <div class="card ml-4 border border-secondary">
+          <div class="xcard ml-1 xborder xborder-secondary">
+<!--
             <b-table
-              :fields="fields.slice(-3)"
+              :fields="fields.slice(-1)"
+              :items="[row.item]"
+              class="table-sm"
+              fixed
+            >
+              <template
+                slot="support"
+                slot-scope="data"
+              >
+
+ -->
+            <div
+              v-for="(support, index) in row.item.support"
+              :key="index"
+              class="row"
+            >
+              <div
+                class="col-3">
+                <i
+                  :class="support.typeIcon"
+                  class="fa fa-fw"
+                />
+                <small>{{ support.type }}</small>
+              </div>
+              <div
+                v-if="support.label"
+                class="col-9">
+                <a
+                  :href="support.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ support.label }}
+                </a>
+              </div>
+              <div
+                v-if="support.icon"
+                class="col-9">
+                <img
+                  :src="support.icon"
+                  class="source-icon">
+              </div>
+            </div>
+<!--
+              </template>
+            </b-table>
+
+ -->
+ <!--
+            <b-table
+              :fields="fields.slice(-4, -1)"
               :items="[row.item]"
               class="table-sm"
               fixed
@@ -94,13 +178,13 @@
                 slot-scope="data"
               >
                 <ul
-                  v-for="evi in data.item.evidence"
-                  :key="evi.id"
+                  v-for="(evi, index) in data.item.evidence"
+                  :key="index"
                   class="list-bullets"
                 >
                   <li>
                     <a
-                      :href="evi.id | eviHref"
+                      :href="evi | eviHref"
                       target="_blank"
                     >
                       {{ evi.lbl }}
@@ -109,11 +193,11 @@
                 </ul>
               </template>
               <template
-                slot="references"
+                slot="publications"
                 slot-scope="data"
               >
                 <ul
-                  v-for="ref in data.item.references"
+                  v-for="ref in data.item.publications"
                   :key="ref"
                   class="list-bullets"
                 >
@@ -138,12 +222,14 @@
                 >
                   <li>
                     <a :href="source">
-                      {{ source | sourceHref }}
+                      {{ source | sourceLabel }}
                     </a>
                   </li>
                 </ul>
               </template>
             </b-table>
+-->
+
           </div>
         </template>
       </b-table>
@@ -180,6 +266,7 @@
 <script>
 import * as BL from '@/api/BioLink';
 import JsonTree from 'vue-json-tree';
+import sourceToImage from '../lib/sources';
 
 export default {
   components: {
@@ -190,15 +277,22 @@ export default {
       const identifier = curie.split(/[:]+/).pop();
       return `https://www.ncbi.nlm.nih.gov/pubmed/${identifier}`;
     },
-    eviHref(curie) {
+    eviHref(evi) {
+      const curie = evi.id || '';
       const identifier = curie.split(/[:]+/).pop();
       return `http://purl.obolibrary.org/obo/ECO_${identifier}`;
     },
-    sourceHref(url) {
-      return url.split(/[/]+/)
+    relationHref(relation) {
+      const curie = relation.id || '';
+      const identifier = curie.split(/[:]+/).pop();
+      return `http://purl.obolibrary.org/obo/RO_${identifier}`;
+    },
+    sourceLabel(url) {
+      const result = url.split(/[/]+/)
         .pop()
         .split(/[.]+/)[0]
         .toUpperCase();
+      return result;
     }
   },
   props: {
@@ -226,9 +320,8 @@ export default {
       rowsPerPage: 25,
       totalItems: 0,
       inverted: false,
-      rowClicked: false,
       isGene: false,
-      dataPacket: '',
+      associationData: '',
       dataFetched: false,
       dataError: false,
       dataFetchedPage: 0,
@@ -241,7 +334,8 @@ export default {
         'model',
         'variant',
         'homolog'
-      ]
+      ],
+      lastSelection: null,
     };
   },
   computed: {
@@ -277,7 +371,7 @@ export default {
   },
   methods: {
     async rowsProvider(ctx, callback) {
-      this.fetchData().then((data) => {
+      this.fetchData().then(() => {
         callback(this.rows);
       }).catch((error) => {
         callback([]);
@@ -336,8 +430,20 @@ export default {
       return keyMappings[key];
     },
 
-    rowClickHandler(record, index, event) {
-      this.rowClicked = !this.rowClicked;
+    rowClicked(record, index, event) {
+      record._showDetails = !record._showDetails;
+    },
+
+    rowSelected(rows, index, event) {
+      if (this.lastSelection) {
+        this.lastSelection.forEach((r) => {
+          this.$set(r, '_showDetails', false);
+        });
+      }
+      rows.forEach((r) => {
+        this.$set(r, '_showDetails', true);
+      });
+      this.lastSelection = rows.slice(0);
     },
 
     async fetchData() {
@@ -353,27 +459,27 @@ export default {
             start: ((this.currentPage - 1) * this.rowsPerPage),
             rows: this.rowsPerPage
           };
-          const searchResponse = await BL.getNodeAssociations(
+          const associationsResponse = await BL.getNodeAssociations(
             this.nodeType,
             this.nodeId,
             this.cardType,
             params
           );
-          // console.log('searchResponse');
-          // console.log(JSON.stringify(searchResponse, null, 2));
+          // console.log('associationsResponse');
+          // console.log(JSON.stringify(associationsResponse, null, 2));
 
-          if (!searchResponse.data
-              || !searchResponse.data.associations) {
-            that.dataPacket = null;
+          if (!associationsResponse.data
+              || !associationsResponse.data.associations) {
+            that.associationData = null;
             throw new Error('BL.getNodeAssociations() returned no data');
           }
-          that.dataPacket = searchResponse;
+          that.associationData = associationsResponse.data;
           that.dataFetched = true;
           that.dataFetchedPage = this.currentPage;
           that.dataFetchedRowsPerPage = this.currentPage;
 
-          that.totalItems = searchResponse.data.numFound;
-          // searchResponse.data.associations.forEach(a => {
+          that.totalItems = associationsResponse.data.numFound;
+          // associationsResponse.data.associations.forEach(a => {
           //   console.log(a.subject.label, a.subject.taxon.label);
           // });
           // that.currentPage = 1;
@@ -388,10 +494,9 @@ export default {
     populateRows() {
       this.rows = [];
       let count = 0;
-      this.dataPacket.data.associations.forEach((elem) => {
+      this.associationData.associations.forEach((elem) => {
         count += 1;
         let pubs = [
-          'No References'
         ];
         let pubsLength = 0;
         if (elem.publications) {
@@ -405,10 +510,10 @@ export default {
           }
         ];
         let evidenceLength = 0;
-        const eviResults = this.parseEvidence(elem.evidence_graph.nodes);
+        const eviResults = this.parseEvidence(elem.evidence_graph);
         if (eviResults.length) {
           evidence = eviResults;
-          evidenceLength += eviResults.length;
+          evidenceLength = eviResults.length;
         }
         let objectElem = elem.object;
         if (this.inverted) {
@@ -416,18 +521,54 @@ export default {
         }
         const taxon = this.parseTaxon(objectElem);
 
+        const support = [];
+        evidence.forEach((evi) => {
+          support.push({
+            type: 'evidence',
+            typeIcon: 'fa-long-arrow-right',
+            label: evi.lbl,
+            url: this.$options.filters.eviHref(evi),
+          });
+        });
+        pubs.forEach((pub) => {
+          support.push({
+            type: 'publication',
+            typeIcon: 'fa-book',
+            label: pub,
+            url: this.$options.filters.pubHref(pub),
+          });
+        });
+        elem.provided_by.forEach((source) => {
+          support.push({
+            type: 'source',
+            // label: this.$options.filters.sourceLabel(source),
+            typeIcon: 'fa-database',
+            icon: '../img/sources/' + sourceToImage(source),
+          });
+        });
+        const supportLength = support.length;
+        // console.log('support');
+        // console.log(JSON.stringify(support, null, 2));
         if (!taxon.id || this.trueFacets.includes(taxon.id)) {
           let objectLink = `/${this.cardType}/${objectElem.id}`;
           if (objectElem.id.indexOf(':.well-known') === 0) {
             objectLink = null;
           }
 
+          // if (this.rows.length === 0) {
+          //   console.log('firstrow');
+          //   console.log(JSON.stringify(elem, null, 2));
+          //   console.log('firstrow evidence', evidenceLength);
+          //   console.log(JSON.stringify(evidence, null, 2));
+          // }
           this.rows.push({
-            references: pubs,
-            referencesLength: pubsLength,
+            publications: pubs,
+            publicationsLength: pubsLength,
             annotationType: this.cardType,
             evidence,
             evidenceLength,
+            support,
+            supportLength,
             objectCurie: objectElem.id,
             sources: elem.provided_by,
             sourcesLength: elem.provided_by.length,
@@ -435,19 +576,22 @@ export default {
             objectLink,
             taxonLabel: taxon.label,
             taxonId: taxon.id,
-            relationId: elem.relation.id,
-            relationLabel: elem.relation.label
+            relation: elem.relation,
+            _showDetails: false,
+            isActive: false,
           });
+
+          elem.relation.url = this.$options.filters.relationHref(elem.relation);
         }
       });
     },
     generateFields() {
       this.isGene = false;
       const fields = [
-        {
-          key: 'show_details',
-          label: ''
-        },
+        // {
+        //   key: 'show_details',
+        //   label: ''
+        // },
         {
           key: 'assocObject',
           label: this.firstCap(this.cardType),
@@ -455,18 +599,47 @@ export default {
           // sortable: true,
         },
         {
+          key: 'relation',
+          label: 'Relation'
+        },
+        {
           key: 'evidence',
           label: 'Evidence'
         },
         {
-          key: 'references',
-          label: 'References'
+          key: 'publications',
+          label: 'Publications'
         },
         {
           key: 'sources',
           label: 'Sources'
+        },
+        {
+          key: 'support',
+          label: 'Support'
         }
       ];
+      const fieldsWithSupport = [
+        // {
+        //   key: 'show_details',
+        //   label: ''
+        // },
+        {
+          key: 'assocObject',
+          label: this.firstCap(this.cardType),
+          'class': 'assoc-column-width '
+          // sortable: true,
+        },
+        {
+          key: 'relation',
+          label: 'Relation'
+        },
+        {
+          key: 'support',
+          label: 'Support'
+        }
+      ];
+
       if (this.taxonFields.includes(this.cardType)) {
         this.isGene = true;
         fields.splice(2, 0, {
@@ -474,14 +647,22 @@ export default {
           label: 'Taxon'
           // sortable: true,
         });
+        fieldsWithSupport.splice(2, 0, {
+          key: 'taxon',
+          label: 'Taxon'
+          // sortable: true,
+        });
       }
-      this.fields = fields;
+      this.fields = fieldsWithSupport;
     },
-    parseEvidence(evidenceList) {
+    parseEvidence(evidenceGraph) {
       let result = [];
-      if (evidenceList) {
-        result = evidenceList.filter(elem => elem.id.includes('ECO'));
+      if (evidenceGraph.nodes) {
+        result = evidenceGraph.nodes.filter(elem => elem.id.includes('ECO'));
       }
+      // if (evidenceGraph.edges) {
+      //   result = evidenceGraph.edges;
+      // }
       return result;
     },
     parsePublications(pubsList) {
@@ -507,7 +688,14 @@ export default {
   }
 };
 </script>
-<style scoped>
+
+<style lang="scss">
+@import "~@/style/variables";
+.assoc-table {
+  .table.b-table tr {
+    outline: 1px solid lightgray;
+  }
+
   a {
     color: #404040;
   }
@@ -558,4 +746,13 @@ export default {
     border: none;
     border-left: 2px solid lightgray;
   }
+
+  img.source-icon {
+    max-height: 18px;
+    height: 18px;
+    width: auto;
+    xmargin: auto;
+    display: block;
+  }
+}
 </style>

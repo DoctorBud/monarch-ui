@@ -98,6 +98,7 @@ export async function getNode(nodeId, nodeType) {
     rows: 100
   };
 
+  //
   // There should be no need for a separate API call to get the uri field.
   // the /bioentity/ endpoints should return uri when appropriate.
   // Until then, we parallelize a call to identifier/prefixes/expand to get a uri,
@@ -131,21 +132,37 @@ export async function getNode(nodeId, nodeType) {
           bioentityResponseData.description = '';
         }
 
-        const counts = bioentityResponseData.association_counts;
-        const countsMap = {};
-        Object.keys(counts).forEach((key) => {
-          let count = counts[key];
-          if (key === nodeType && count > 0) {
-            console.log('bad?', nodeType, nodeId, count);
-            count = 0;
-          }
-          countsMap[key] = {
-            facetCount: count,
-            totalCount: count
-          };
-        });
+        // TEMPORARY WORKAROUND when api-dev.m.org is broken and
+        // when production does not yet support get_association_counts.
+        // So the hack is to synthesize non-zero counts, and rely upon
+        // /bioentity/disease/:id/genes (e.g.) to work properly when
+        // the user asks for a paricular type of association (i.e., clicks
+        // on a card in Node.vue)
+        //
+        //
+        // bioentityResponseData.association_counts = {
+        //   gene: 1,
+        //   phenotype: 1,
+        //   disease: 1,
+        //   genotype: 1,
+        //   variant: 1,
+        // };
 
-        bioentityResponseData.counts = countsMap;
+        // const counts = bioentityResponseData.association_counts;
+        // const countsMap = {};
+        // Object.keys(counts).forEach((key) => {
+        //   let count = counts[key];
+        //   if (key === nodeType && count > 0) {
+        //     console.log('bad?', nodeType, nodeId, count);
+        //     count = 0;
+        //   }
+        //   countsMap[key] = {
+        //     facetCount: count,
+        //     totalCount: count
+        //   };
+        // });
+
+        // bioentityResponseData.counts = countsMap;
         // console.log('bioentityResponseData', nodeId, nodeType);
         // console.log(JSON.stringify(bioentityResponseData, null, 2));
 
@@ -345,8 +362,19 @@ export async function getNodeAssociations(nodeType, nodeId, cardType, params) {
   const urlExtension = `${nodeType}/${nodeId}/${biolinkAnnotationSuffix}`;
   const url = `${baseUrl}${urlExtension}`;
 
-  return new Promise((resolve, reject) => {
-    axios.get(url, { params })
+  const response = await axios.get(url, { params });
+  // console.log('getNodeAssociations', nodeType, nodeId, cardType, url);
+  // console.log(response.request.responseURL);
+  response.data.associations.forEach((a) => {
+    // const relation = a.relation.inverse
+    //   ? `<- ${a.relation.label} <-`
+    //   : `-> ${a.relation.label} ->`;
+    // const line = `${a.subject.label}(${a.subject.id}) ${relation} ${a.object.label}(${a.object.id}) `;
+    // console.log(line);
+  });
+  return response;
+
+/*
       .then((resp) => {
         const responseData = resp;
         if (typeof responseData !== 'object') {
@@ -371,6 +399,7 @@ export async function getNodeAssociations(nodeType, nodeId, cardType, params) {
         reject(err);
       });
   });
+*/
 }
 
 
