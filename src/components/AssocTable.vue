@@ -17,10 +17,9 @@
         :per-page="rowsPerPage"
         responsive="true"
         hover
-        striped
         selectable
         select-mode="range"
-        selected-variant="success"
+        selected-variant="info"
         class="table-sm xtable-border-soft"
         @row-selected="rowSelected"
       >
@@ -108,6 +107,13 @@
           slot="support"
           slot-scope="data"
         >
+          <span
+            v-for="icon in data.item.supportIcons">
+            <i
+              :class="icon"
+              class="fa fa-fw"
+            />
+          </span>
           ({{ data.item.supportLength }})
         </template>
 
@@ -140,6 +146,7 @@
                   :class="support.typeIcon"
                   class="fa fa-fw"
                 />
+                &nbsp;
                 <small>{{ support.type }}</small>
               </div>
               <div
@@ -504,10 +511,6 @@ export default {
           pubsLength += pubs.length;
         }
         let evidence = [
-          {
-            lbl: 'No Evidence',
-            id: ''
-          }
         ];
         let evidenceLength = 0;
         const eviResults = this.parseEvidence(elem.evidence_graph);
@@ -522,30 +525,48 @@ export default {
         const taxon = this.parseTaxon(objectElem);
 
         const support = [];
-        evidence.forEach((evi) => {
-          support.push({
-            type: 'evidence',
-            typeIcon: 'fa-long-arrow-right',
-            label: evi.lbl,
-            url: this.$options.filters.eviHref(evi),
+        const supportIcons = [];
+
+        if (evidence.length > 0) {
+          const eviIcon = 'fa-flask'; // 'fa-legal' 'fa-chain';
+          supportIcons.push(eviIcon);
+          evidence.forEach((evi) => {
+            support.push({
+              type: 'evidence',
+              typeIcon: eviIcon,
+              label: `${evi.lbl} (${evi.id})`,
+              url: this.$options.filters.eviHref(evi),
+            });
           });
-        });
-        pubs.forEach((pub) => {
-          support.push({
-            type: 'publication',
-            typeIcon: 'fa-book',
-            label: pub,
-            url: this.$options.filters.pubHref(pub),
+        }
+
+        if (pubs.length > 0) {
+          const pubIcon = 'fa-book';
+          supportIcons.push(pubIcon);
+          pubs.forEach((pub) => {
+            support.push({
+              type: 'publication',
+              typeIcon: pubIcon,
+              label: pub,
+              url: this.$options.filters.pubHref(pub),
+            });
           });
-        });
-        elem.provided_by.forEach((source) => {
-          support.push({
-            type: 'source',
-            // label: this.$options.filters.sourceLabel(source),
-            typeIcon: 'fa-database',
-            icon: '../img/sources/' + sourceToImage(source),
+        }
+
+        const sources = elem.provided_by;
+        if (sources.length > 0) {
+          const sourceIcon = 'fa-database';
+          supportIcons.push(sourceIcon);
+          elem.provided_by.forEach((source) => {
+            support.push({
+              type: 'source',
+              // label: this.$options.filters.sourceLabel(source),
+              typeIcon: sourceIcon,
+              icon: '../img/sources/' + sourceToImage(source),
+            });
           });
-        });
+        }
+
         const supportLength = support.length;
         // console.log('support');
         // console.log(JSON.stringify(support, null, 2));
@@ -569,6 +590,7 @@ export default {
             evidenceLength,
             support,
             supportLength,
+            supportIcons,
             objectCurie: objectElem.id,
             sources: elem.provided_by,
             sourcesLength: elem.provided_by.length,
@@ -667,7 +689,11 @@ export default {
     },
     parsePublications(pubsList) {
       const pubs = [];
-      pubsList.forEach(elem => pubs.push(elem.id));
+      pubsList.forEach((elem) => {
+        if (elem.id !== this.nodeId) {
+          pubs.push(elem.id);
+        }
+      });
       return pubs;
     },
     parseTaxon(elemObj) {
@@ -696,6 +722,17 @@ export default {
     outline: 1px solid lightgray;
   }
 
+  table.b-table.b-table-selectable > tbody > tr
+  {
+    /*
+     * Inhibit b-table's default user-select:none; which
+     * was preventing user copying to clipboard.
+     */
+    -webkit-user-select: unset;
+    -moz-user-select: unset;
+    -ms-user-select: unset;
+    user-select: unset;
+  }
   a {
     color: #404040;
   }
@@ -748,11 +785,9 @@ export default {
   }
 
   img.source-icon {
-    max-height: 18px;
-    height: 18px;
+    max-height: 22px;
+    height: 22px;
     width: auto;
-    xmargin: auto;
-    display: block;
   }
 }
 </style>

@@ -14,7 +14,7 @@ import axios from 'axios';
 const servers = {
   development: {
     'type': 'development',
-    'app_base': 'https://monarchinitiative.org',
+    'app_base': 'https://beta.monarchinitiative.org',
     'scigraph_url': 'https://scigraph-ontology-dev.monarchinitiative.org/scigraph/',
     'scigraph_data_url': 'https://scigraph-data-dev.monarchinitiative.org/scigraph/',
     'golr_url': 'https://solr.monarchinitiative.org/solr/golr/',
@@ -52,8 +52,11 @@ const servers = {
 
 };
 
+const defaultApiServer = 'development';
+const apiServer = (new URLSearchParams(document.location.search.substring(1))).get('api') || defaultApiServer;
+console.log('apiServer', apiServer);
 
-const serverConfiguration = servers.development;
+const serverConfiguration = servers[apiServer];
 const biolink = serverConfiguration.biolink_url;
 
 /**
@@ -459,5 +462,5 @@ export function comparePhenotypes(phenotypesList, geneList, species = 'all', mod
 export function debugServerName() {
   return (serverConfiguration.app_base.length > 0)
     ? serverConfiguration.app_base
-    : 'https://monarchinitiative.org';
+    : 'https://beta.monarchinitiative.org';
 }
