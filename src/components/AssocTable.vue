@@ -20,27 +20,10 @@
         selectable
         select-mode="range"
         selected-variant="info"
-        class="table-sm xtable-border-soft"
+        class="table-sm"
         @row-selected="rowSelected"
       >
-<!--
-        <template
-          slot="show_details"
-          slot-scope="row"
-        >
-          <button
-            class="btn btn-xs btn-toggle"
-            @click="row.toggleDetails">
-            <i
-              :class="{
-                'fa-chevron-down': row.detailsShowing,
-                'fa-chevron-right': !row.detailsShowing
-              }"
-              class="fa fa-fw"
-            />
-          </button>
-        </template>
- -->
+
         <template
           slot="assocObject"
           slot-scope="data"
@@ -108,7 +91,9 @@
           slot-scope="data"
         >
           <span
-            v-for="icon in data.item.supportIcons">
+            v-for="(icon, index) in data.item.supportIcons"
+            :key="index"
+          >
             <i
               :class="icon"
               class="fa fa-fw"
@@ -122,36 +107,22 @@
           slot-scope="row"
         >
           <div class="xcard ml-1 xborder xborder-secondary">
-<!--
-            <b-table
-              :fields="fields.slice(-1)"
-              :items="[row.item]"
-              class="table-sm"
-              fixed
-            >
-              <template
-                slot="support"
-                slot-scope="data"
-              >
-
- -->
             <div
               v-for="(support, index) in row.item.support"
               :key="index"
               class="row"
             >
               <div
-                class="col-3">
+                class="col-2">
                 <i
                   :class="support.typeIcon"
                   class="fa fa-fw"
                 />
-                &nbsp;
-                <small>{{ support.type }}</small>
+                <small>&nbsp;{{ support.type }}</small>
               </div>
               <div
                 v-if="support.label"
-                class="col-9">
+                class="col-10">
                 <a
                   :href="support.url"
                   target="_blank"
@@ -168,75 +139,6 @@
                   class="source-icon">
               </div>
             </div>
-<!--
-              </template>
-            </b-table>
-
- -->
- <!--
-            <b-table
-              :fields="fields.slice(-4, -1)"
-              :items="[row.item]"
-              class="table-sm"
-              fixed
-            >
-              <template
-                slot="evidence"
-                slot-scope="data"
-              >
-                <ul
-                  v-for="(evi, index) in data.item.evidence"
-                  :key="index"
-                  class="list-bullets"
-                >
-                  <li>
-                    <a
-                      :href="evi | eviHref"
-                      target="_blank"
-                    >
-                      {{ evi.lbl }}
-                    </a>
-                  </li>
-                </ul>
-              </template>
-              <template
-                slot="publications"
-                slot-scope="data"
-              >
-                <ul
-                  v-for="ref in data.item.publications"
-                  :key="ref"
-                  class="list-bullets"
-                >
-                  <li>
-                    <a
-                      :href="ref | pubHref"
-                      target="_blank"
-                    >
-                      {{ ref }}
-                    </a>
-                  </li>
-                </ul>
-              </template>
-              <template
-                slot="sources"
-                slot-scope="data"
-              >
-                <ul
-                  v-for="source in data.item.sources"
-                  :key="source"
-                  class="list-bullets"
-                >
-                  <li>
-                    <a :href="source">
-                      {{ source | sourceLabel }}
-                    </a>
-                  </li>
-                </ul>
-              </template>
-            </b-table>
--->
-
           </div>
         </template>
       </b-table>
@@ -435,10 +337,6 @@ export default {
         'Xenopus (Silurana) tropicalis': 'NCBITaxon:8364'
       };
       return keyMappings[key];
-    },
-
-    rowClicked(record, index, event) {
-      record._showDetails = !record._showDetails;
     },
 
     rowSelected(rows, index, event) {
@@ -642,10 +540,6 @@ export default {
         }
       ];
       const fieldsWithSupport = [
-        // {
-        //   key: 'show_details',
-        //   label: ''
-        // },
         {
           key: 'assocObject',
           label: this.firstCap(this.cardType),
@@ -682,9 +576,6 @@ export default {
       if (evidenceGraph.nodes) {
         result = evidenceGraph.nodes.filter(elem => elem.id.includes('ECO'));
       }
-      // if (evidenceGraph.edges) {
-      //   result = evidenceGraph.edges;
-      // }
       return result;
     },
     parsePublications(pubsList) {
@@ -732,6 +623,7 @@ export default {
     -moz-user-select: unset;
     -ms-user-select: unset;
     user-select: unset;
+    cursor: unset;
   }
   a {
     color: #404040;

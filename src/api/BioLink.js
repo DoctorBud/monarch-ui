@@ -351,6 +351,12 @@ function getBiolinkAnnotation(cardType) {
   if (cardType === 'anatomy') {
     result = 'expression/anatomy';
   }
+  else if (cardType === 'ortholog-phenotype') {
+    result = 'ortholog/phenotypes';
+  }
+  else if (cardType === 'ortholog-disease') {
+    result = 'ortholog/diseases';
+  }
   else if (cardType === 'function') {
     result = cardType;
   }

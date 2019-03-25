@@ -37,7 +37,6 @@
           </a>
         </li>
 
-
         <li class="list-group-item list-group-item-squat">
           <a
             href="#"
